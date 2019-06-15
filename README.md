@@ -1,2 +1,2 @@
 # timeseries.live
-Anomaly detection on massive, high frequency time series data
+Anomaly detection on high frequency time series data
