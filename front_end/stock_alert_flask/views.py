@@ -17,8 +17,7 @@ databasePassword = os.environ.get("databasePassword")
 
 #connect to database
 db = create_engine("postgresql://{}:{}@{}:5432/{}".format(databaseUser, databaseName, databaseIP, databaseName))
-con = psycopg2.connect(host=databaseIP,database=databaseName, user=databaseUser,
-                        password=databasePassword)
+con = psycopg2.connect(host=databaseIP,database=databaseName, user=databaseUser, password=databasePassword)
 
 @app.route('/')
 @app.route('/index')
@@ -36,8 +35,8 @@ def anomalies():
 
 @app.route('/<ticker>')
 def ticker(ticker):
-    timeseriesdata = db.execute("select * from all_differenced where code = '{}'".format(ticker)).fetchall()
-    anomalies = db.execute("select * from anomalies where code = '{}'".format(ticker)).fetchall()
+    timeseriesdata = db.execute("select * from stock_prices where code = '{}'".format(ticker)).fetchall()
+    anomalies = db.execute("select * from stock_anomalies where code = '{}'".format(ticker)).fetchall()
 
     return render_template("ticker.html", timeseries=timeseriesdata, anomalies=anomalies, ticker=ticker)
 
@@ -46,33 +45,35 @@ def ticker(ticker):
 #used for plotting the time series data for a given ticker
 @app.route('/json/<ticker>')
 def api(ticker):
-    timeseriesdata = db.execute("select * from all_differenced where code = '{}' order by time".format(ticker)).fetchall()
+    timeseriesdata = db.execute("select * from stock_prices  where code = '{}' order by time".format(ticker)).fetchall()
     
     #get unix time in miliseconds and prices
-    temp =  [[(data_point[0]-datetime.datetime(1970,1,1,tzinfo=pytz.utc)).total_seconds(), data_point[3]] for data_point in timeseriesdata]
+    temp =  [[data_point[0], data_point[3]] for data_point in timeseriesdata]
 
 
-    temp2 = []
-    for i in range(0,len(temp)-1):
-        if temp[i][0] != temp[i+1][0]:
-            temp2.append(temp[i])
+    #temp2 = []
+    #for i in range(0,len(temp)-1):
+    #    if temp[i][0] != temp[i+1][0]:
+    #        temp2.append(temp[i])
 
-    for element in temp2:
-        element[0] = int(element[0]*1000)
+    #for element in temp2:
+    #    element[0] = int(element[0]*1000)
 
 
     #return json.dumps(temp2)
-    return jsonify(temp2)
+    return jsonify(temp)
     
 #return a list of lists of  unixtime stamps and anomaly percent changes representing anomalies
 #which will be used to plot anomalies on top of price data
 @app.route('/anomalies/<ticker>')
 def anomalies_ticker(ticker):
 
-    anomalies = db.execute("select * from anomalies where code = '{}'".format(ticker)).fetchall()
+    anomalies = db.execute("select * from stock_anomalies where code = '{}'".format(ticker)).fetchall()
 
 
-    list_of_anom =  [{"x": int((data_point[0]-datetime.datetime(1970,1,1,tzinfo=pytz.utc)).total_seconds()*1000), "title":"!", "text":data_point[2]} for data_point in anomalies]
+    #list_of_anom =  [{"x": int((data_point[0]-datetime.datetime(1970,1,1,tzinfo=pytz.utc)).total_seconds()*1000), "title":"!", "text":data_point[2]} for data_point in anomalies]
+    list_of_anom =  [{"x": data_point[0], "title":("+{}".format(int(data_point[3])) if data_point[2] > 0 else "-{}".format(int(data_point[3]))), "text":data_point[2]} for data_point in anomalies]
+
 
     return jsonify(list_of_anom)
 
