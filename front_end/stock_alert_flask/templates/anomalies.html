@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Anomalies
+{% endblock %}
+
+{% block body %}
+	<h1>Recent Anomalies Detected</h1>
+	<ul>
+		{% for anomaly in anomalies %}
+		<li>
+			<a href="{{ url_for('ticker', ticker=anomaly.code )}}" >
+			{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}} 
+			</a>	
+		</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

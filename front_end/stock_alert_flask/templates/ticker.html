@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	{{ticker}}
+{% endblock %}
+
+{% block body %}
+	<script>
+	var anomalies_json;
+	$.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/anomalies/{{ticker}}', function(anomalies){
+	    anomalies_json = anomalies;
+});
+$.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/json/{{ticker}}', function (data) {
+
+    // Create the chart
+    Highcharts.stockChart('container', {
+
+
+        rangeSelector: {
+            selected: 0
+        },
+
+        title: {
+		text: '{{ticker}} prices'
+        },
+
+        tooltip: {
+            style: {
+                width: '200px'
+            },
+            valueDecimals: 4,
+            shared: true
+        },
+
+        yAxis: {
+            title: {
+                text: 'Price'
+            }
+        },
+
+        series: [{
+		name: '{{ticker}}',
+            data: data,
+            id: 'dataseries'
+
+        // the event marker flags
+        }, {
+            type: 'flags',
+            data: anomalies_json,
+            onSeries: 'dataseries',
+            shape: 'circlepin',
+            width: 16
+        }]
+    });
+});
+
+
+	</script>
+	<!--
+	<h1>Time series data for the ticker</h1>
+	<ul>
+		{% for data_point in timeseries %}
+		<li>
+			{{data_point.time}} {{data_point.code}} {{data_point.percent_change}} 
+		</li>
+		{% endfor %}
+	</ul>
+	-->
+	<h1>Anomalies detected for this ticker</h1>
+	<ul>
+		{% for anomaly in anomalies %}
+		<li>
+			{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}}
+		</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
