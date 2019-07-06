@@ -1,4 +1,4 @@
-# timeseries.live
+# Stock Alert
 Anomaly detection on high frequency time series data
 
 ## Motivation
