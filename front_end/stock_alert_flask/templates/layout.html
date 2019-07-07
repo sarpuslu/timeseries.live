@@ -10,16 +10,9 @@
 
 
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script src="https://code.highcharts.com/stock/highstock.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
-		<script src="https://code.highcharts.com/modules/export-data.js"></script>
-
 		<link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/navbar-fixed-top/">		
 
-		<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
-		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
-
-		
+			
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,7 +20,7 @@
     				<span class="navbar-toggler-icon"></span>
 			</button>
   			<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    				<a class="navbar-brand" href="#">Stock Alert</a>
+				<a class="navbar-brand" href="{{url_for('index')}}">Stock Alert</a>
     				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       					<li class="nav-item active">
 	      				<a class="nav-link" href="{{ url_for('anomalies') }}">Anomalies<span class="sr-only">(current)</span></a>
@@ -41,7 +34,7 @@
 		</nav>
 
 
-   		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+   		
 		<div class="body_container">
 			{% block body %}
 			{% endblock %}

@@ -10,7 +10,7 @@
 		{% for anomaly in anomalies %}
 		<li>
 			<a href="{{ url_for('ticker', ticker=anomaly.code )}}" >
-			{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}} 
+				{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}} {{anomaly.num_of_std_away}}
 			</a>	
 		</li>
 		{% endfor %}

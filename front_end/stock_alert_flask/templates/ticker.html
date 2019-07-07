@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
+	<script src="https://code.highcharts.com/stock/highstock.js"></script> 
+        <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+        <script src="https://code.highcharts.com/modules/export-data.js"></script> 
 	<script>
 	var anomalies_json;
 	$.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/anomalies/{{ticker}}', function(anomalies){
@@ -56,22 +59,5 @@ $.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/json/{{ticker}}', f
 
 
 	</script>
-	<!--
-	<h1>Time series data for the ticker</h1>
-	<ul>
-		{% for data_point in timeseries %}
-		<li>
-			{{data_point.time}} {{data_point.code}} {{data_point.percent_change}} 
-		</li>
-		{% endfor %}
-	</ul>
-	-->
-	<h1>Anomalies detected for this ticker</h1>
-	<ul>
-		{% for anomaly in anomalies %}
-		<li>
-			{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}}
-		</li>
-		{% endfor %}
-	</ul>
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 {% endblock %}

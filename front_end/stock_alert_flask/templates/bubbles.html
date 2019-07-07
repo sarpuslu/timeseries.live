@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Bubbles
+{% endblock %}
+
+{% block body %}
+
+<!--	<div id="bubble_plot" style="height: 600px; min-width: 310px; max-width: 600px; margin: 0 auto"></div>-->
+	<div id="bubble_plot" style="height:100%;width:100%; margin:0 auto"></div>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+		<script>
+		
+        $.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/bubble_json?since_date={{since_date}}&intensity={{intensity}}', function(bubble_data){
+
+	
+Highcharts.chart('bubble_plot', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    title: {
+        text: 'Anomalies'
+    },
+
+    subtitle: {
+        text: 'Bigger bubbles on the right top and left bottom indicate likely positive and negative anomalies'
+    },
+
+    xAxis: {
+        gridLineWidth: 1,
+        title: {
+            text: 'sum of percent change of anomaly points for the ticker'
+        },
+        labels: {
+            format: ''
+        },
+         },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'sum of the intensity of anomalies detected'
+        },
+        labels: {
+            format: ''
+        },
+        maxPadding: 0.2,
+            },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.company_name}</h3></th></tr>' +
+           '<tr><th>Sector:</th><td>{point.sector}</td></tr>' +
+            '<tr><th>Industry:</th><td>{point.industry}</td></tr>' +
+            '<tr><th>Anomaly count:</th><td>{point.z}</td></tr>',
+        footerFormat: '</table>',
+        followPointer: true,
+    },
+
+    plotOptions: {
+        series: {
+	cursor:'pointer',
+		point:{
+			events:{
+				click:function(){
+					location.href='http://ec2-34-201-147-241.compute-1.amazonaws.com/' + this.options.name;
+				}
+			}
+		}
+        }
+
+    },
+
+    series: [{
+        data:bubble_data 
+    }]
+
+});   
+});
+
+
+	</script>
+
+	{% endblock %}

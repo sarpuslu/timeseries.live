@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Stock Alert
+{% endblock %}
+
+{% block body %}
+	<h2>Show anomalies above intensity threshold since date</h2>
+
+	
+	<form action="{{ url_for('bubbles') }}" method="post">
+		<div class="form-group">
+			<input class="form-control" type="date" id="since_date" name="since_date">
+		</div>
+		<div class="form-group">
+			<select class="form-control" name="intensity">
+				<option value="3">Anomalies more than  3 standard deviations away</option>
+				<option value="4">Anomalies more than 4 standard deviations away</option>
+				<option value="5">Anomalies more than 5 standard deviations away</option>
+				<option value="6">Anomalies more than 6 standard deviations away</option>
+				<option value="7">Anomalies more than 7 standard deviations away</option>
+				<option value="8">Anomalies more than 8 standard deviations away</option>
+				<option value="9">Anomalies more than 9 standard deviations away</option>
+				<option value="10">Anomalies more than 10 standard deviations away</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+
+	<!--
+	<ul>
+		{% for anomaly in anomalies %}
+		<li>
+			<a href="{{ url_for('ticker', ticker=anomaly.code )}}" >
+			{{anomaly.time}} {{anomaly.code}} {{anomaly.percent_change}} 
+			</a>	
+		</li>
+		{% endfor %}
+	</ul>
+	-->
+{% endblock %}
