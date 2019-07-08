@@ -10,10 +10,10 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script> 
 	<script>
 	var anomalies_json;
-	$.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/anomalies/{{ticker}}', function(anomalies){
+	$.getJSON('http://timeseries.live/anomalies/{{ticker}}', function(anomalies){
 	    anomalies_json = anomalies;
 });
-$.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/json/{{ticker}}', function (data) {
+$.getJSON('http://timeseries.live/json/{{ticker}}', function (data) {
 
     // Create the chart
     Highcharts.stockChart('container', {

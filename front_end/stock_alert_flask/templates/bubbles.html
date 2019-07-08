@@ -15,7 +15,7 @@
 
 		<script>
 		
-        $.getJSON('http://ec2-34-201-147-241.compute-1.amazonaws.com/bubble_json?since_date={{since_date}}&intensity={{intensity}}', function(bubble_data){
+        $.getJSON('http://timeseries.live/bubble_json?since_date={{since_date}}&intensity={{intensity}}', function(bubble_data){
 
 	
 Highcharts.chart('bubble_plot', {
@@ -77,7 +77,7 @@ Highcharts.chart('bubble_plot', {
 		point:{
 			events:{
 				click:function(){
-					location.href='http://ec2-34-201-147-241.compute-1.amazonaws.com/' + this.options.name;
+					location.href='http://timeseries.live/' + this.options.name;
 				}
 			}
 		}
