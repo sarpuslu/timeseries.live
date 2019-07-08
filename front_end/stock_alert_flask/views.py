@@ -119,12 +119,24 @@ def bubble_json():
     for row in nasdaq_companies:
         company_info_dict[row[0]] = [row[1], row[2], row[3]]
 
+     #there are 131 distinct industries set a color for each
+    distinct_industries = db.execute("select distinct industry from nasdaq_companies").fetchall()
+    distinct_industries = pd.DataFrame(distinct_industries)
+    distinct_industries = list(distinct_industries[0])
+    industry_color_dict = {}
+    for industry in distinct_industries:
+        rgba = list(np.random.choice(range(256), size=3))
+        rgba.append(0.5)
+        industry_color_dict[industry] = 'rgba({},{},{},{})'.format(rgba[0],rgba[1],rgba[2],rgba[3])
+    
+
+
     #put the aggregated anomaly information and company information together for the bubble plot    
     tickers = list(df_grouped.index.values)
     bubblePlotInput = []
     for ticker in tickers:
         grouped_row = list(df_grouped.loc[ticker,:])
-        insertDict = {"name":ticker, "x": grouped_row[1], "y":grouped_row[2], "z":grouped_row[0], "company_name":company_info_dict[ticker][0], "sector":company_info_dict[ticker][1], "industry":company_info_dict[ticker][2]}
+        insertDict = {"name":ticker, "x": grouped_row[1], "y":grouped_row[2], "z":grouped_row[0], "company_name":company_info_dict[ticker][0], "sector":company_info_dict[ticker][1], "industry":company_info_dict[ticker][2], "color":industry_color_dict[company_info_dict[ticker][2]]}
         bubblePlotInput.append(insertDict)
-    
+   
     return jsonify(bubblePlotInput)
