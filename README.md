@@ -29,7 +29,17 @@ This is easily observed by the number of anomalies detected by this system. Thes
 
 [INSERT AN IMAGE WITH MULTIPLE ANOMALIES DETECTED WITHIN A SHORT TIME FRAME]
 
-This is not particularly a problem as 
+This is not particularly a problem as the 3 standadard deviation limit is just a threshold 
+
 ## Pipeline
 Prices are ingested by Kafka, processed by Spark Streaming and stored into TimescaleDB.
+[INSERT PIPELINE IMAGES HERE]
+
+## File Structure
+
+## Environment Setup
+
+## Example Dataset
+
+
 
