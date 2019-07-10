@@ -11,8 +11,11 @@ Consider this example below where this pharmaceutical company lost almost half o
 ## Approach
 My approach is to ingest real time stock prices for all the stocks in the NASDAQ exchange, transform them into stationary processes that have (roughly) normal distributions by first taking the log and differencing the time series. A  visual example of this transformation is shown below:
 
-![](readme_images/time_series_transformation.jpeg){: .center-image}
+<div align="center"> 
+<img src="readme_images/time_series_transformation.jpeg">
+</div>
 
+![](readme_images/time_series_transformation.jpeg)
 Prices and differences are stored into TimescaleDB. Once every day mean and standard deviation of these differences are calculated and stored into the distributions table. As new data is ingested and processed it is compared to the stored distributions. The property of the normal distribution dictates that 99.7% of the data falls within 3 standard deviations of the mean. If the incoming price changes are outside three standard deviations of the mean that difference is marked as anomalous and stored into the anomalies table.
 
 ![](readme_images/normal_distribution.jpeg)
