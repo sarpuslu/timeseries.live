@@ -47,7 +47,7 @@ Based on the this date, the bubble plot is formed. The bubbles are colored with 
 
 Bubbles are clickable which takes the user to the price time series of that particular stock, where each anomalous point is annotated by the intensity value. 
 
-![](readma_images/price_time_series.jpg)
+![](readme_images/price_time_series.jpg)
 
 
 
