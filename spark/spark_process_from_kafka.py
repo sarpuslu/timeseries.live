@@ -9,6 +9,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row, SparkSession
 from pyspark import SparkContext
+from pyspark.sql.types import StructType, IntegerType, StringType, FloatType, StructField, LongType
 
 import io
 import os
@@ -59,11 +60,20 @@ def diff_stocks(rdd):
     if rdd.isEmpty():
         print("Stock RDD is empty")
     else:
-        df = rdd.toDF()
+        #df = rdd.toDF()
         #stocks come in a messy form. initial na drop
+        #df = df.na.drop()
+        #df = df.selectExpr("_1 as time", "_2 as code", "_3 as bid_price", "_4 ask_price")
+        schema = StructType([
+                    StructField("time", LongType()),
+                    StructField("code", StringType()),
+                    StructField("bid_price", FloatType()),
+                    StructField("ask_price", FloatType())])
+        #df.createOrReplaceTempView("prices")
+
+        df = sql_context.createDataFrame(rdd, schema)
         df = df.na.drop()
-        df = df.selectExpr("_1 as time", "_2 as code", "_3 as bid_price", "_4 ask_price")
-        df.createOrReplaceTempView("prices")
+        #df = df.selectExpr("_1 as time", "_2 as code", "_3 as bid_price", "_4 ask_price")
 
         df = df.withColumn("mid_price", (df["bid_price"] + df["ask_price"])/2)
         df = df.withColumn("bid_ask_spread", (df["ask_price"]-df["bid_price"]))
