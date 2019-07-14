@@ -46,10 +46,10 @@ def diff_forex(rdd):
         df = df.withColumn("lagged_mid_price", func.lag(df["mid_price"]).over(Window.partitionBy("code").orderBy("time")))
         df = df.withColumn("percent_change", ((df["mid_price"] - df["lagged_mid_price"])/df["lagged_mid_price"])*100)
         df = df.withColumn("processing_time", func.current_timestamp())
-        #df = df.withColumn("new_time", func.from_utc_timestamp(df["time"], "EST"))
+       
         df = df.na.drop()
         df = df.select(["processing_time", "code", "bid_price", "ask_price", "mid_price", "bid_ask_spread", "lagged_mid_price", "percent_change"])
-        #df.show()
+
 
         addToDB(df, "all_differenced")
 
@@ -60,21 +60,18 @@ def diff_stocks(rdd):
     if rdd.isEmpty():
         print("Stock RDD is empty")
     else:
-        #df = rdd.toDF()
-        #stocks come in a messy form. initial na drop
-        #df = df.na.drop()
-        #df = df.selectExpr("_1 as time", "_2 as code", "_3 as bid_price", "_4 ask_price")
+      
+        #set schema for dataframe
         schema = StructType([
                     StructField("time", LongType()),
                     StructField("code", StringType()),
                     StructField("bid_price", FloatType()),
                     StructField("ask_price", FloatType())])
-        #df.createOrReplaceTempView("prices")
+        
 
         df = sql_context.createDataFrame(rdd, schema)
         df = df.na.drop()
-        #df = df.selectExpr("_1 as time", "_2 as code", "_3 as bid_price", "_4 ask_price")
-
+        
         df = df.withColumn("mid_price", (df["bid_price"] + df["ask_price"])/2)
         df = df.withColumn("bid_ask_spread", (df["ask_price"]-df["bid_price"]))
         df = df.withColumn("lagged_mid_price", func.lag(df["mid_price"]).over(Window.partitionBy("code").orderBy("time")))
