@@ -30,7 +30,7 @@ distribution_db_insert = []
 for code in distinct_codes:
     singleInsert = []
     singleInsert.append(code)
-    cur.execute("select percent_change from all_differenced where code='{}'".format(code))
+    cur.execute("select percent_change from stock_prices where code='{}'".format(code))
     dbResponse = cur.fetchall()
     diffs = [row[0] for row in dbResponse]
 
@@ -56,7 +56,7 @@ for code in distinct_codes:
 
 
     #insert new mean and stdev into database
-    cur.execute("insert into distributions (time, code, mean, stdev) values ({time}, {code}, {mean}, {stdev});".format(time="'{}'".format(datetime.datetime.now()), 
+    cur.execute("insert into stock_distributions (time, code, mean, stdev) values ({time}, {code}, {mean}, {stdev});".format(time="'{}'".format(datetime.datetime.now()), 
                                            code="'{}'".format(singleInsert[0]), 
                                            mean=singleInsert[1], 
                                            stdev=singleInsert[2]))
