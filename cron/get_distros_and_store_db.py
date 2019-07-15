@@ -5,6 +5,7 @@ from scipy import stats
 import math
 import datetime
 import os 
+import time
 
 
 #connect to database
@@ -56,7 +57,7 @@ for code in distinct_codes:
 
 
     #insert new mean and stdev into database
-    cur.execute("insert into stock_distributions (time, code, mean, stdev) values ({time}, {code}, {mean}, {stdev});".format(time="'{}'".format(datetime.datetime.now()), 
+    cur.execute("insert into stock_distributions (time, code, mean, stdev) values ({time}, {code}, {mean}, {stdev});".format(time="'{}'".format(int(time.time())), 
                                            code="'{}'".format(singleInsert[0]), 
                                            mean=singleInsert[1], 
                                            stdev=singleInsert[2]))
