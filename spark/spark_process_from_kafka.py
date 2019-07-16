@@ -91,7 +91,7 @@ def detect_anomaly(df):
     #get distributions informations for all the stocks
     url = 'postgresql://{}:5432/{}'.format(databaseIP, databaseName)
     properties = {'user': databaseUser, 'password': databasePassword}
-    distributions_df = DataFrameReader(sql_context).jdbc(url='jdbc:%s' % url, table='distributions', properties=properties)
+    distributions_df = DataFrameReader(sql_context).jdbc(url='jdbc:%s' % url, table='stock_distributions', properties=properties)
     distributions_df.createOrReplaceTempView("distributions")
 
     #calculate upper and lower limit for percent change
