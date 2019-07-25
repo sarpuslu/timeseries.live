@@ -71,7 +71,7 @@ Bubbles are clickable which takes the user to the price time series of that part
 </div>
 
 
-
+[![Stock Alert]](https://www.youtube.com/watch?v=Iuxz-rHnMTI)
 
 
 
