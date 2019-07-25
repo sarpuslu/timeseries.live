@@ -51,10 +51,10 @@ Prices are ingested by Kafka, processed by Spark Streaming and stored into Times
 
 On the homepage users are prompted for a date. This is the date for which the anomaly aggregations are done. Ideally this should be the previous day, meaning that all the anomalies starting from yesterday will be considered. This way the most recent anomalies are visible to the users. 
 
+Click on the image below to see a video demonstration:
 
-<div align="center"> 
-<img src="readme_images/homepage.jpg">
-</div>
+
+[![Stock Alert](readme_images/homepage.jpg)](https://www.youtube.com/watch?v=Iuxz-rHnMTI)
 
 
 Based on the this date, the bubble plot is formed. The bubbles are colored with respect to the industry of the companies and the size of the bubbles indicate the number of anomalous points that have been detected since the date specified. The location of bubble indicates the directional intensity of the anomalous points. Ideally users would be interested in large bubbles that are either on the top right of the plot for significant positive changes and bottom left of the plot for significant negative changes. 
@@ -71,7 +71,7 @@ Bubbles are clickable which takes the user to the price time series of that part
 </div>
 
 
-[![Stock Alert](readme_images/homepage.jpg)](https://www.youtube.com/watch?v=Iuxz-rHnMTI)
+
 
 
 
